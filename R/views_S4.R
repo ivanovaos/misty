@@ -15,8 +15,8 @@ setGeneric("CallBuildingViewFunction", function(misty.view, force.processing, ..
   standardGeneric("CallBuildingViewFunction")
 })
 
-setMethod("CallBuildingViewFunction", c(misty.view = "MistyView", force.processing...), 
-          function(misty.view, force.processing = FALSE, ...) {
+setMethod("CallBuildingViewFunction", c(misty.view="MistyView", force.processing...), 
+          function(misty.view, force.processing=FALSE, ...) {
           if (!is.null(misty.view@building.view.function) & (!processed | force.processing)) {
               misty.view@building.view.function(...)  
               misty.view@processed=TRUE
@@ -27,10 +27,10 @@ setMethod("CallBuildingViewFunction", c(misty.view = "MistyView", force.processi
           })
 
 # --- MistyPipeline class definition
-setClass("MistyPipeline", slots = list(name="character", unique.id="character",
-                                       data="data.frame",
-                                       cache.location="character", 
-                                       views="list"))
+setClass("MistyPipeline", slots=list(name="character", unique.id="character",
+                                      data="data.frame",
+                                      cache.location="character", 
+                                      views="list"))
 
 setGeneric("InitiatePipeline", function(misty.pipeline, data, verbose=NA, unique.id=NA) {
   standardGeneric("InitiatePipeline")
@@ -47,8 +47,7 @@ setMethod("InitiatePipeline", c(misty.pipeline = "MistyPipeline", data="data.fra
                                      unique.id)
             
             # create cache
-            cache.location <-
-              file.path(".misty.temp", misty.uniqueid)
+            cache.location <- file.path(".misty.temp", misty.uniqueid)
             CheckAndCreateDirectory(cache.location)
             
             misty.pipeline@unique.id <- misty.uniqueid
@@ -101,7 +100,7 @@ setMethod("AddView", c(misty.pipeline="MistyPipeline",
             }
             
             #TODO 
-            #msg = "The new view should have the same number of rows as the intracellular view."
+            #msg <- "The new view should have the same number of rows as the intracellular view."
             
             misty.pipeline@views <- c(misty.pipeline@views, name=view)
             return(misty.pipeline)
@@ -252,10 +251,10 @@ RunDefaultPipeline <- function(name="misty_pipeline", data) {
   misty_pipeline <- new("MistyPipeline", name="misty_pipeline")
   misty_pipeline <- InitiatePipeline(misty_pipeline, data)
   
-  misty_pipeline = AddView(misty_pipeline, name = "initial_view")
+  misty_pipeline <- AddView(misty_pipeline, name="initial_view")
   #TODO specify the params transfered to the functions 
-  misty_pipeline = AddView(misty_pipeline, name = "juxtaview", abbreviation="jx", view.building.funcion=BuildJuxtaview)
-  misty_pipeline = AddView(misty_pipeline, name = "paraview", abbreviation="para", view.building.funcion=BuildParaview)
+  misty_pipeline <- AddView(misty_pipeline, name="juxtaview", abbreviation="jx", view.building.funcion=BuildJuxtaview)
+  misty_pipeline <- AddView(misty_pipeline, name="paraview", abbreviation="para", view.building.funcion=BuildParaview)
   
   return(misty_pipeline)
 }
